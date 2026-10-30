@@ -24,5 +24,5 @@ Open `project.godot` in Godot 4.7.2 or newer and press F6/F5 to play.
 
 The committed `docs/` folder contains the single-threaded web build. In Settings â†’ Pages, select **Deploy from a branch**, branch **main**, and folder **/docs**, then save. Play at https://lionelbolling.github.io/Super-Pong/ after deployment.
 
-After changing the game, install the matching Godot web export templates and run `godot --headless --path . --export-release Web docs/index.html`, then commit and push the updated `docs/` files. `docs/.gdignore` keeps exported files out of the Godot project, and `docs/.nojekyll` tells Pages to serve the build directly. Keyboard controls work on desktop browsers; touch controls are not included.
+After changing the game, install the matching Godot web export templates and run `godot --headless --path . --export-release Web docs/index.html`, then `node scripts/version_web_build.cjs` to give the game data a content-based filename that avoids stale browser caches. Commit and push the updated `docs/` files. `docs/.gdignore` keeps exported files out of the Godot project, and `docs/.nojekyll` tells Pages to serve the build directly. Keyboard controls work on desktop browsers; touch controls are not included.
 
