@@ -32,6 +32,24 @@ func check_game(game: Node) -> void:
 	assert(not game.playing and game.winner == "PLAYER 1 WINS")
 	game.start_game()
 	assert(game.playing and game.scores == [0, 0] and game.winner == "")
+	game.two_player = true
+	game.point(1)
+	var snapshot: Array = game.network_state()
+	game.right_y = 500
+	game.scores = [5, 5]
+	game.apply_network_state(snapshot)
+	assert(game.scores == [0, 1] and game.right_y == snapshot[1], "Guest should restore host state")
+	game.online = true
+	game.connected = true
+	game.is_host = false
+	position = game.ball
+	game._physics_process(0.1)
+	assert(game.ball == position, "Guest must not simulate authoritative physics")
+	game.is_host = true
+	game.remote_input = 1.0
+	var before: float = game.right_y
+	game._physics_process(0.02)
+	assert(game.right_y > before, "Host should apply guest paddle input")
 	print("PASS: paddle collisions, wall bounce, pause, scoring, win, restart")
 	game.queue_free()
 	quit()
