@@ -2,7 +2,7 @@
 
 A Godot Pong game with a computer opponent and local two-player mode. First to seven wins. No external assets or plugins are required.
 
-Open `project.godot` in Godot 4.6 or newer and press F6/F5 to play.
+Open `project.godot` in Godot 4.7.2 or newer and press F6/F5 to play.
 
 | Key | Action |
 | --- | --- |
@@ -14,6 +14,6 @@ Open `project.godot` in Godot 4.6 or newer and press F6/F5 to play.
 
 ## Browser publishing
 
-The GitHub Actions workflow exports a single-threaded web build and deploys it to GitHub Pages when pushed to `main`. In the repository's Settings → Pages, select **GitHub Actions** as the source. The expected URL for LionelBolling/Super-Pong is https://lionelbolling.github.io/Super-Pong/ after a successful deployment.
+The committed `docs/` folder contains the single-threaded web build. In Settings → Pages, select **Deploy from a branch**, branch **main**, and folder **/docs**, then save. Play at https://lionelbolling.github.io/Super-Pong/ after deployment.
 
-The repository and live site have not been published by this local setup. Keyboard controls work on desktop browsers; touch controls are not included.
+After changing the game, install the matching Godot web export templates and run `godot --headless --path . --export-release Web docs/index.html`, then commit and push the updated `docs/` files. `docs/.gdignore` keeps exported files out of the Godot project, and `docs/.nojekyll` tells Pages to serve the build directly. Keyboard controls work on desktop browsers; touch controls are not included.
