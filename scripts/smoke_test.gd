@@ -1,0 +1,37 @@
+extends SceneTree
+
+func _initialize() -> void:
+	var game = load("res://main.tscn").instantiate()
+	root.add_child.call_deferred(game)
+	call_deferred("check_game", game)
+
+func check_game(game: Node) -> void:
+	game.set_physics_process(false)
+	game.start_game()
+	assert(game.playing and game.scores == [0, 0])
+	game.serve_delay = 0
+	game.ball = Vector2(80, game.left_y)
+	game.velocity = Vector2(-420, 0)
+	game._physics_process(0.02)
+	assert(game.velocity.x > 0, "Left paddle should reflect the ball")
+	game.ball = Vector2(880, game.right_y)
+	game.velocity = Vector2(420, 0)
+	game._physics_process(0.02)
+	assert(game.velocity.x < 0, "Right paddle should reflect the ball")
+	game.ball = Vector2(400, 134)
+	game.velocity = Vector2(200, -420)
+	game._physics_process(0.02)
+	assert(game.velocity.y > 0, "Top wall should reflect the ball")
+	game.paused = true
+	var position: Vector2 = game.ball
+	game._physics_process(0.1)
+	assert(game.ball == position, "Pause should stop movement")
+	game.paused = false
+	for i in range(7):
+		game.point(0)
+	assert(not game.playing and game.winner == "PLAYER 1 WINS")
+	game.start_game()
+	assert(game.playing and game.scores == [0, 0] and game.winner == "")
+	print("PASS: paddle collisions, wall bounce, pause, scoring, win, restart")
+	game.queue_free()
+	quit()
