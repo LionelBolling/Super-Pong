@@ -27,9 +27,13 @@ func check_game(game: Node) -> void:
 	game._physics_process(0.1)
 	assert(game.ball == position, "Pause should stop movement")
 	game.paused = false
-	for i in range(7):
+	for i in range(2):
 		game.point(0)
+	assert(game.playing and game.scores[0] == 2, "Two points must not end the match")
+	game.point(0)
 	assert(not game.playing and game.winner == "PLAYER 1 WINS")
+	game.play_ai()
+	assert(game.playing and not game.two_player and game.scores == [0, 0], "VS AI starts a fresh solo match")
 	game.start_game()
 	assert(game.playing and game.scores == [0, 0] and game.winner == "")
 	game.two_player = true
